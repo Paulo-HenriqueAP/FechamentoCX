@@ -1,0 +1,61 @@
+* {
+    list-style: none;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+li {
+    font-size: large;
+}
+
+input {
+    text-align: center;
+    width: 55px;
+    font-size: small;
+    margin: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 3px;
+    font-weight: bold;
+}
+
+.cashInput {
+    font-size: larger;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 3px;
+    margin-right: 3px;
+    border: none;
+}
+
+table {
+    margin: 12px;
+}
+
+.pickJson input {
+    width: max-content;
+}
+
+table {
+    border: 1px solid;
+}
+
+table,
+th,
+td {
+    padding: 2px;
+    border-bottom: 1px solid;
+    max-width: 300px;
+}
+
+.sangriaNotinhas div {
+    border-top: 1px solid;
+    padding-bottom: 3px;
+}
+
+span, b {
+    font-size: large
+}
