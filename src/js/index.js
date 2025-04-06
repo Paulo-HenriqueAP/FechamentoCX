@@ -539,8 +539,8 @@ function reqToJson() {
     const cadName = document.getElementById("requestPName");
     const cadCod = document.getElementById("requestPCod");
 
-    cadastrar.push({ "PRODUTO: ": cadName.value });
-    cadastrar.push({ "BARRAS: ": cadCod.value });
+    cadastrar.push({ "PRODUTO:": cadName.value });
+    cadastrar.push({ "BARRAS:": cadCod.value });
     try {
         window.confirm("SOLICITAR CADASTRO DE > " + cadName.value) ? exportJson(JSON.stringify(cadastrar, null, 2), "REGISTRAR_PRODUTO", "location.reload") : location.reload();
     } catch (err) {
@@ -1094,7 +1094,7 @@ function processJson() {
 
 
     saveJson = JSON.stringify(dataJson, null, 2);
-    fileName = `${nameText.textContent} ${login}-${localStorage.getItem("abriuFechamento")}`;
+    fileName = `${localStorage.getItem("abriuFechamento")}-${nameText.textContent}-${login}`;
     //console.log(dateNow)
     try {
         exportJson(saveJson, fileName);
