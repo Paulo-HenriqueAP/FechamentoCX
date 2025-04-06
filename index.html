@@ -11,6 +11,18 @@
 </head>
 
 <body>
+    <div id="requestProduct" class="hidden">
+        <b>SOLICITAR CADASTRO DE PRODUTO</b>
+        <br>
+        <br>
+        <span style=" color: slategray; font-size: x-small;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
+        <br>
+        <br>
+        <li>Nome produto: <input type="text" id="requestPName"
+                onchange="document.getElementById('requestPCod').focus()"></li>
+
+        <li>Cód barras: &nbsp;&nbsp;<input type="number" id="requestPCod" onchange="reqToJson()"></li>
+    </div>
     <div id="loginHub" class="">
         <section>
             <h4 id="infosTitle">Login</h4>
@@ -33,27 +45,23 @@
             <input type="text" id="nameValue" onchange="simpleCheck()">
         </li>
         <button id="saveButton" onclick="saveFolks()">salvar</button>
-        <br>
-        <br>
-        <span style="font-size: x-small;">▪ F9 cancela</span>
-        <br>
-        <br>
-        <button onclick="defCashier()" id="cxName">Alterar Caixa</button>
+       <h6 style="color: slategray;">▪ F5 cancela</h6>
+        <button onclick="defCashier()" id="cxName">Alterar caixa</button>
     </div>
 
     <div class="hidden" id="sangria">
         <b style="font-size: x-large;">SANGRIAS</b>
         <br>
-        <span style="font-size: X-small;">▪ NAVEGUE COM TAB <br> ▪ F2 CANCELA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <br>
+        <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
         <br>
         <input style="font-size: large; margin-top: 20px; height: 30px;" type="number" min="300" id="sangriaInput"
             onchange="defSangria()" placeholder="valor > enter">
 
         <ul id="sangriaEdit" style="border-bottom: 2px solid black;padding-bottom: 10px;">
-            <h4>EM DINHEIRO</h4>
         </ul>
         <ul id="sangriaVias">
-            <h4>DE NOTINHAS | <span>DIGITE</span><img style="vertical-align: middle;" class="keyIconsSmall"
+            <h4>DE NOTINHAS > <img style="vertical-align: middle;" class="keyIconsSmall"
                     src="src/icons/keys/0_Key_Light.png" alt="0"></h4>
         </ul>
     </div>
@@ -79,10 +87,7 @@
         <section id="backSec" class="hidden" style="background-color: #16161D"><button id="back" onclick="sClass()"
                 style="color: white;">⤺ voltar</button></section>
 
-        <h2 id="toolsH2">
-            <span style="font-size: X-small;">NAVEGUE COM TAB</span><br>
-            Texto ⤵
-        </h2>
+        <h2 id="toolsH2" style=" width: max-content;">Escreva algo ⤵</h2>
 
         <div contenteditable style="overflow:hidden;" id="obsText" oninput="qrCodeSet()"></div>
 
@@ -91,6 +96,7 @@
             Tamanho da fonte
             <input type="number" id="fontSizeVar" style="width: 50px; text-align: center;" value="13"
                 onchange="changeFontSize()" min="1"> px
+                <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
         </b>
 
         <section style="background-color: skyblue;" id="barSec">
@@ -281,26 +287,28 @@
 
     <div class="howTo hidden" id="tutoDiv">
         <!-- <span style="font-size: x-large;">Como usar</span> <br><br>-->
-        <li style="border-top: none;"><img src="src/icons/keys/Enter_Key_Light.png" alt="ENTER" class="keyIcons"><strong>avança</strong> </li>
-
-        <li><img src="src/icons/keys/V_Key_Light.png" alt="V" class="keyIcons"> <strong>volta</strong></li>
-
-        <li><img src="src/icons/keys/A_Key_Light.png" alt="A" class="keyIcons" class="keyIcons"> <strong>volta para AVULSO</strong></li>
+       <!-- <li style="border-top: none;"><img src="src/icons/keys/Enter_Key_Light.png" alt="ENTER" class="keyIcons"><strong>avança</strong> </li>-->
+        <li><img src="src/icons/keys/A_Key_Light.png" alt="A" class="keyIcons" class="keyIcons"> <strong>foca em AVULSO</strong></li>
 
         <li><img src="src/icons/keys/L_Key_Light.png" alt="L" class="keyIcons" class="keyIcons"> <strong> primeiro livre</strong></li>
 
-        <li> <img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2" class="keyIcons"> <strong>sangrias</strong></li>
+        <li><img src="src/icons/keys/V_Key_Light.png" alt="V" class="keyIcons"> <strong>volta</strong></li>
+    
+        <li><img src="src/icons/keys/F1_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F1" class="keyIcons"> <strong>solicitar</strong></li>
 
-        <li> <img src="src/icons/keys/F4_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F4" class="keyIcons"> <strong>imprimir fechamento</strong></li>
+        <li><img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2" class="keyIcons"> <strong>sangrias</strong></li>
 
-        <li><img src="src/icons/keys/F8_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F8" class="keyIcons"> <strong>finalizar seção</strong></strong></li>
+        <li><img src="src/icons/keys/F4_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F4" class="keyIcons"> <strong>imprimir</strong></li>
 
-        <li> <img src="src/icons/keys/F9_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F9" class="keyIcons"> <strong>editar seu nome</strong></li>
+        <li><img src="src/icons/keys/F8_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F8" class="keyIcons"> <strong>encerrar seção</strong></strong></li>
+
+        <li><img src="src/icons/keys/F9_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F9" class="keyIcons"> <strong>editar seu nome</strong></li>
 
         <li style="cursor: pointer;" onclick="tools()"><img src="src/icons/keys/10_Key_Light.png" alt="F10" class="keyIcons"> <strong>ferramentas</strong></li>
 
         <li><img src="src/icons/keys/F11_Key_Light.png" alt="F11" class="keyIconsSmall"> + <img src="src/icons/keys/F5_Key_Light.png" alt="F5" class="keyIconsSmall"> <strong>destrava</strong></li>
     </div>
+
     <div id="printerSettings">
         <ul style="padding: 0;">
             <li>Impressora: <b>Epson TM-T20X Series</b></li>

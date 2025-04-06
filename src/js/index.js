@@ -25,6 +25,7 @@ let folks = [
 let sangriasSaved = [
     //{ sangriaValue: "R$ 500,00'", sangriaTime: "07/02/2025 | 23:01:22" }
 ];
+const cadastrar = [];
 let dateNow;
 
 let sViasSaved = [];
@@ -40,7 +41,7 @@ const registerHub = document.getElementById("registerHub");
 
 const holidays = {
     "01/01": { holName: `Feliz ${new Date().getFullYear()}`, holImg: "src/icons/anoNovo.png" },
-    "18/04": { holName: "Sexta Feira Santa", holImg: "src/icons/sexta.png" }/*VARIA*/,
+    "18/04": { holName: "Sexta-feira Santa", holImg: "src/icons/sexta.png" }/*VARIA*/,
     "21/04": { holName: "Dia de Tiradentes", holImg: "src/icons/tiradentes.png" },
     "01/05": { holName: "Dia do Trabalhador", holImg: "src/icons/trabalhador.png" },
     "15/08": { holName: "Dia de Nossa Senhora da Boa Viagem", holImg: "src/icons/viagem.png" },
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     document.getElementById("date").textContent = `${new Date().toLocaleDateString()}`;
     document.getElementById("cx").textContent = `[${cashier}]`;
-    document.getElementById("cxName").textContent = `ALTERAR CAIXA [${cashier}]`
+    document.getElementById("cxName").textContent = `Alterar caixa [${cashier}]`
 });
 
 /*const folks = [
@@ -379,22 +380,6 @@ function findAndClear() {
             sendToPix.remove();
         })
     }
-    /*
-        let errorValues = document.getElementsByClassName("becomeError");
-    
-        for (let i = 0; i < errorValues.length; i++) {
-            const sendToError = document.createElement("input");
-            sendToError.value = errorValues[i].value;
-            sendToError.classList.add("tempInput");
-            sendToError.value.length >= 8 ? sendToError.style.width = `${sendToError.value.length}ch` : null;
-    
-            document.getElementById("errorValues").appendChild(sendToError);
-            setTimeout(function () {
-                sendToError.remove();
-            })
-        }
-    */
-    //setTimeout volta a pág para o estado anterior
 };
 
 function clearAll() {
@@ -436,7 +421,7 @@ document.addEventListener("keydown", (function (event) {
             break;
         case "F8":
             event.preventDefault();
-            if (window.confirm("APAGAR todos os valores da seção?")) {
+            if (window.confirm("APAGAR todos os valores e finalizar seção?")) {
                 processJson();
                 /*
                 document.getElementById("loginHub").classList.add("lastChange");
@@ -507,22 +492,15 @@ document.addEventListener("keydown", (function (event) {
             break;
         case "F2":
             event.preventDefault();
-            bodyTable.classList.add("hidden");
-            document.getElementById("filters").classList.add("hidden");
-            sangriaElement.classList.toggle("hidden");
-            !sangriaElement.classList.contains("hidden") ? sangriaInput.focus() : location.reload();
-            registerHub.classList.add("hidden");
+            hiddenAll()
+            sangriaElement.classList.remove("hidden");
+            sangriaInput.focus();
             break;
         case "F9":
             event.preventDefault();
-            if (simpleLock === false) {
-                registerHub.classList.toggle("hidden");
-                bodyTable.classList.toggle("hidden");
-                document.getElementById("filters").classList.toggle("hidden");
-            } else {
-                registerHub.classList.toggle("hidden");
-                registerHub.classList.contains("hidden") ? location.reload() : null
-            }
+            hiddenAll();
+            registerHub.classList.remove("hidden");
+            simpleLock = true;
             login ? registerStatus.textContent = `editando '${login}'` : registerStatus.textContent = "Criando novo";
             createEditFolk();
             simpleCheck();
@@ -531,8 +509,14 @@ document.addEventListener("keydown", (function (event) {
             break;
         case "F10":
             event.preventDefault();
-            simpleLock = true;
             tools();
+            break;
+        case "F1":
+            event.preventDefault();
+            simpleLock = true;
+            hiddenAll();
+            document.getElementById("requestProduct").classList.remove("hidden")
+            document.getElementById("requestPName").focus();
             break;
         case "KeyV":
             if (simpleLock) return;
@@ -541,6 +525,31 @@ document.addEventListener("keydown", (function (event) {
             break;
     };
 }));
+
+function hiddenAll() {
+    bodyTable.classList.add("hidden");
+    sangriaElement.classList.add("hidden");
+    registerHub.classList.add("hidden");
+    document.getElementById("filters").classList.add("hidden");
+    document.getElementById("obsTable").classList.add("hidden");
+    document.getElementById("requestProduct").classList.add("hidden");
+}
+
+function reqToJson() {
+    const cadName = document.getElementById("requestPName");
+    const cadCod = document.getElementById("requestPCod");
+
+    cadastrar.push({ "PRODUTO: ": cadName.value });
+    cadastrar.push({ "BARRAS: ": cadCod.value });
+    try {
+        window.confirm("SOLICITAR CADASTRO DE > " + cadName.value) ? exportJson(JSON.stringify(cadastrar, null, 2), "REGISTRAR_PRODUTO", "location.reload") : location.reload();
+    } catch (err) {
+        alert("OCORREU UM ERRO! REPITA O PROCESSO. > " + err);
+        cadName.value = "";
+        cadCod.value = "";
+        cadName.focus();
+    };
+};
 
 function changePosition() {
     let moveTo = 4;
@@ -560,20 +569,17 @@ function changePosition() {
             document.getElementById("trC" + moveTo).appendChild(document.getElementById(element));
         }
     }, 1000)
-
 };
 
 tools = () => {
-    if (document.getElementById("obsTable").classList.contains("hidden")) {
-        bodyTable.classList.add("hidden");
-        document.getElementById("filters").classList.add("hidden");
-        document.getElementById("obsTable").classList.remove("hidden");
-        simpleLock = true;
-    }
+    simpleLock = true;
+    hiddenAll();
+    document.getElementById("obsTable").classList.remove("hidden");
     setTimeout(function () {
         document.getElementById("obsText").focus();
     }, 200);
 };
+
 
 function saveState() {
     const inputs = document.querySelectorAll('.etc');
@@ -600,7 +606,7 @@ function loadState() {
     control < 2 ? createInputs() : null;
     folksJson = localStorage.getItem("folks");
 
-    folks = JSON.parse(folksJson)
+    folks = JSON.parse(folksJson);
 
     if (localStorage.getItem("sangriasSaved")) {
         sangriasSaved = JSON.parse(localStorage.getItem("sangriasSaved"));
@@ -773,7 +779,7 @@ defSangria = () => {
             document.getElementById("sangriaTable").classList.toggle("hidden");
             sangriaInput.classList.toggle("hidden");
             document.getElementById("sangria").classList.add("hidden");
-            document.getElementById("sumSangria").innerHTML = `<span style="font-size: large;">SANGRIA DE<span><br> <h1>${sangria.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>`;
+            document.getElementById("sumSangria").innerHTML = `<span style="font-size: large;">SANGRIA<span><br> <h1>${sangria.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</h1>`;
             document.getElementById("timeSangria").textContent = `${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} `
             sangriaMade = { sangriaValue: sangria, sangriaTime: new Date().toLocaleTimeString() }
             sangriasSaved.push(sangriaMade);
@@ -852,7 +858,7 @@ function saveSangriaVias() {
     let sVdevolucoes = []
     let sVpix = []
 
-    if (window.confirm("A gerencia confirmou? ▪ ALTERNE COM TAB.")) {
+    if (window.confirm("A gerência confirmou? ▪ ALTERNE COM TAB.")) {
         document.querySelectorAll(".etc").forEach((input) => {
             if (input.value.trim() === "") {
                 return;
@@ -950,7 +956,7 @@ sClass = () => {
     document.getElementById("fontLabel").classList.remove("hidden");
     document.getElementById("backSec").classList.add("hidden");
     document.getElementById("etiquetar").classList.add("hidden");
-    optName.textContent = "Texto ⤵";
+    optName.textContent = "Escreva algo ⤵";
     document.getElementById("obsText").focus();
 };
 
@@ -1103,14 +1109,18 @@ function processJson() {
 
 };
 
-function exportJson(items, jsonName) {
+function exportJson(items, jsonName, msg) {
     const blob = new Blob([items], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = jsonName;
     link.click();
-};
 
+    if (msg) {
+        alert("CONTINUE SOLICITANDO, " + uName.textContent + " :>")
+        location.reload();
+    }
+};
 /*
 var i;
 for (i = 0; i < localStorage.length; i++) {

@@ -38,6 +38,7 @@ input.becomeDev {
     /*background-color: #009440;*/
     /*background-color: #00c756;*/
     background-color: crimson;
+    border-radius: 3px;
 }
 
 input.becomeSin {
@@ -46,6 +47,7 @@ input.becomeSin {
 
 input.becomePix {
     background-color: #37b4aa;
+    border-radius: 3px;
 }
 
 input.becomeError {
@@ -113,7 +115,7 @@ input {
     right: 0%;
     top: 0;
     border-radius: 3px;
-    box-shadow: 1px 1px 6px 1px;
+    box-shadow: 1px 1px 6px 1px #16161D;
     font-size: medium;
     z-index: 1;
 }
@@ -158,8 +160,8 @@ input {
 }
 
 @media print {
-    body {
-        background-color: transparent;
+    #bodyTable {
+        background-color: white !important;
     }
 
     .howTo,
@@ -272,6 +274,14 @@ input {
     .sVias div {
         border-bottom: 1px dashed !important;
         border-top: none !important;
+    }
+
+    #stuffs,
+    #stuffs10,
+    #stuffs20,
+    #stuffs50_100_200 {
+        background-color: transparent !important;
+
     }
 }
 
@@ -422,6 +432,13 @@ h4 {
     margin: 2px;
 }
 
+#fontLabel span {
+    font-weight: normal;
+    position: absolute;
+    top: 5%;
+    left: 6%;
+}
+
 .barrasTitles {
     width: 30mm;
     text-align: center;
@@ -450,6 +467,7 @@ input[type=number]::-webkit-outer-spin-button {
 #stuffs50_100_200 {
     border: 1px solid;
     border-radius: 3px;
+    background-color: gainsboro;
 }
 
 /*
@@ -530,12 +548,6 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
-#obsTable h2 {
-    padding: 6px;
-    border-radius: 3px;
-    width: max-content;
-}
-
 #etiquetar li {
     padding: 15px;
     border: 1px solid;
@@ -612,7 +624,7 @@ input[type=number]::-webkit-outer-spin-button {
     position: fixed;
     left: 72mm;
     font-size: large;
-    z-index: 6;
+    z-index: 2;
     background-color: #F8F8FF;
     transform: translateY(-50%);
     top: 35%;
@@ -631,4 +643,31 @@ input[type=number]::-webkit-outer-spin-button {
 
 .keyIconsSmall {
     width: 45px;
+}
+
+#requestProduct {
+    border: 1px solid;
+    width: max-content;
+    padding: 20px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 3px;
+    background-color: #F8F8FF;
+    text-align: center;
+    font-size: large;
+    box-shadow: 1px 1px 2px 1px;
+    z-index: 2;
+}
+
+#requestProduct input {
+    font-size: large;
+    margin: 6px;
+    background-color: #F8F8FF;
+    color: black;
+    height: 25px;
+    border: 1px solid;
+    box-shadow: 1px 1px 1px 1px #16161D;
+    border-radius: 3px;
 }

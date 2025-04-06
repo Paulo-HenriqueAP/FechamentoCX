@@ -1,4 +1,7 @@
 let data = []
+let pixSum = 0;
+let viaSum = 0;
+let devSum = 0;
 
 function rebFechamentoJSON(event) {
     const jfile = event.target.files[0];
@@ -55,12 +58,17 @@ function fechamento() {
     const td2 = document.createElement("td");
     tr2.appendChild(td2);
     const div2 = document.createElement("div");
-    div2.innerHTML = `<span>${Object.keys(data[9])[0].toUpperCase()}<span>`
-    data[9][Object.keys(data[9])[0]] == "" ? div2.innerHTML += "<b>: VAZIO<b>" : null;
+    div2.innerHTML = `<span id=pixValues>${Object.keys(data[9])[0].toUpperCase()}<span> `
+    //data[9][Object.keys(data[9])[0]] == "" ? div2.innerHTML += "<b>: VAZIO<b>" : null;
     data[9][Object.keys(data[9])[0]].forEach((createInput) => {
         const input = document.createElement("input");
         input.value = createInput;
-        input.classList.add("values");
+        input.type = "number";
+        input.addEventListener("change", function () {
+            somar();
+        });
+        input.className = "etc";
+        input.classList.add("pixInput");
         div2.appendChild(input);
     })
     td2.appendChild(div2);
@@ -77,34 +85,55 @@ function fechamento() {
         const div = document.createElement("div");
         const input = document.createElement("input");
         input.value = data[i][id];
-        div.innerHTML = `<span>${id.replace("notas", "").replace("_", " ").toUpperCase()} `
+        div.innerHTML = `<span>${id.replace("notas", "").replace("_", " ").toUpperCase()}&nbsp;`
         div.appendChild(input);
         td.appendChild(div);
         table.appendChild(tr)
         div.classList.add("cashInput")
     };
 
+    const trNotinhas = document.createElement("tr");
+    const tdNotinhas = document.createElement("td");
+    trNotinhas.appendChild(tdNotinhas);
+    const divNotinhas = document.createElement("div");
+    divNotinhas.innerHTML = `<span id="viasValue">${Object.keys(data[7])[0].toUpperCase()}<span><br><br>`
 
+    data[7][Object.keys(data[7])[0]].forEach((createInput) => {
+        const input = document.createElement("input");
+        input.value = createInput;
+        input.type = "number";
+        input.addEventListener("change", function () {
+            somar();
+        });
+        input.className = "etc";
+        input.classList.add("viaInput");
+        divNotinhas.appendChild(input);
+    })
 
-    for (let i = 7; i < 9; i++) {
-        const id = Object.keys(data[i])[0];
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        tr.appendChild(td);
-        const div = document.createElement("div");
-        //data[i][id] == "" ? div.innerHTML += `<span>${id.toUpperCase()}<b>: VAZIO<b>`: div.innerHTML = `<span>${id.toUpperCase()}<span><br><br>`;
-        div.innerHTML = `<span>${id.toUpperCase()}<span><br><br>`;
-        data[i][id].forEach((createInput) => {
-            const input = document.createElement("input");
-            input.value = createInput;
-            input.classList.add("values");
+    tdNotinhas.appendChild(divNotinhas);
+    table.appendChild(trNotinhas);
 
-            div.appendChild(input);
-        })
-        td.appendChild(div);
+    const trDev = document.createElement("tr");
+    const tdDev = document.createElement("td");
+    trDev.appendChild(tdDev);
+    const divDev = document.createElement("div");
+    divDev.innerHTML = `<span id="devValues">${Object.keys(data[8])[0].toUpperCase()}<span><br><br>`
 
-        table.appendChild(tr);
-    };
+    data[8][Object.keys(data[8])[0]].forEach((createInput) => {
+        const input = document.createElement("input");
+        input.value = createInput;
+        input.type = "number";
+        input.addEventListener("change", function () {
+            somar();
+        });
+        input.className = "etc";
+        input.classList.add("devInput");
+        divDev.appendChild(input);
+    })
+
+    tdDev.appendChild(divDev);
+    table.appendChild(trDev);
+
 
     const tr3 = document.createElement("tr");
     const td3 = document.createElement("td");
@@ -151,4 +180,49 @@ function fechamento() {
     table.appendChild(tr4);
 
     document.getElementById("tablesSection").appendChild(table);
+    somar();
 }
+
+
+function somar() {
+    pixSum = 0;
+    viaSum = 0;
+    devSum = 0;
+
+    document.querySelectorAll(".etc").forEach((input) => {
+
+        if (input.value.trim() === "") {
+            return;
+        };
+
+        const iValue = parseFloat(input.value)
+
+        if (input.classList.contains("etc") && input.classList.contains("pixInput")) {
+            pixSum += iValue;
+        } else if (input.classList.contains("etc") && input.classList.contains("devInput")) {
+            devSum += iValue;
+        } else {
+            viaSum += iValue;
+        };
+
+    })
+    document.getElementById("pixValues").innerHTML = `PIX > ${pixSum}$ <br> <br>`;
+    document.getElementById("viasValue").innerHTML = `NOTINHAS > ${viaSum}$ <br> <br>`;
+    document.getElementById("devValues").innerHTML = `DEVOLUÇÕES > ${devSum}$ <br> <br>`
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        let nextEl = document.querySelectorAll("input");
+        let index = Array.prototype.indexOf.call(nextEl, document.activeElement);
+        if (index > -1) {
+            try {
+                let jumpTo = nextEl[index + 1];
+                jumpTo.focus();
+            } catch (err) {
+                nextEl[index - 1].focus();
+            }
+        }
+    };
+});
+
