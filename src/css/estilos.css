@@ -194,10 +194,6 @@ input {
         border-bottom: 1px dashed !important;
     }
 
-    #cash {
-        border-bottom: 1px solid;
-    }
-
     #obsTable section {
         display: none;
     }
@@ -498,7 +494,8 @@ input[type=number]::-webkit-outer-spin-button {
 #dev,
 #sin,
 #pix,
-#error #sangriasTitle {
+#error #sangriasTitle,
+#subTotal {
     word-wrap: break-word;
 }
 

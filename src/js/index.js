@@ -4,6 +4,7 @@ let sum = 0;
 let subSum = 0;
 let cashSum = 0;
 let devSum = 0;
+let subTotal = 0;
 let activeEl = document.activeElement;
 let login = "";
 let saveName;
@@ -20,17 +21,15 @@ let edit;
 let cashier;
 let qrSize = 150;
 let barras = 0;
-let folks = [
-];
+let folks = [];
 let sangriasSaved = [
     //{ sangriaValue: "R$ 500,00'", sangriaTime: "07/02/2025 | 23:01:22" }
 ];
-const cadastrar = [];
 let dateNow;
-
 let sViasSaved = [];
 let day;
 let optName = document.getElementById("toolsH2");
+let cadastrar = [];
 
 const topo = document.getElementById("stuffs");
 const signature = document.getElementById("signature");
@@ -38,7 +37,6 @@ const bodyTable = document.getElementById("bodyTable");
 const sangriaElement = document.getElementById("sangria");
 const sangriaInput = document.getElementById("sangriaInput");
 const registerHub = document.getElementById("registerHub");
-
 const holidays = {
     "01/01": { holName: `Feliz ${new Date().getFullYear()}`, holImg: "src/icons/anoNovo.png" },
     "18/04": { holName: "Sexta-feira Santa", holImg: "src/icons/sexta.png" }/*VARIA*/,
@@ -121,12 +119,12 @@ function showUserInfos() {
         document.getElementById("oper").textContent = uName.textContent;
     } else {
         registerHub.classList.remove("hidden");
-        registerStatus.textContent = `Login '${login}' não encontrado`
+        registerStatus.textContent = `Login '${login}' não encontrado`;
         createEditFolk();
         simpleCheck();
     };
     document.getElementById("printerSettings").remove();
-    document.getElementById("loginHub").remove()
+    document.getElementById("loginHub").remove();
     document.getElementById("tutoDiv").classList.remove("hidden");
 };
 
@@ -174,6 +172,7 @@ function formSum() {
     errSum = 0;
     sanSum = 0;
     etcCount = 0;
+    subTotal = 0;
 
     document.querySelectorAll(".etc").forEach((input) => {
         input.value.length >= 8 ? input.style = `width:${input.value.length}ch;` : input.style = "width:default";
@@ -209,7 +208,7 @@ function formSum() {
         });
         sum += sanSum;
     };
-    cashSum += sanSum
+    subTotal = cashSum + sanSum + devSum + pixSum;
 
     updateInput();
 };
@@ -253,18 +252,6 @@ function updateInput() {
     }
     checkPix == 1 ? pixText.textContent = "UM PIX CELULAR" : null;
     //⤦
-    /*
-        if (checkError <= 0) {
-            document.getElementById("errorHub").classList.add("hidden");
-            document.getElementById("errorValues").parentElement.classList.add("hidden");
-        } else {
-            document.getElementById("errorHub").classList.remove("hidden");
-            document.getElementById("errorValues").parentElement.classList.remove("hidden");
-            errorText.textContent = `${checkError} ERROS: ${errSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`
-        }
-    
-        checkError == 1 ? errorText.textContent = "UM ERRO ⤦" : null;
-    */
 
     sangriasSaved.length <= 0 ? sangriaStatus.textContent = "SEM SANGRIAS" : sangriaStatus.textContent = `${sangriasSaved.length} SANGRIAS`;
     sangriasSaved.length == 1 ? sangriaStatus.textContent = "UMA SANGRIA" : null;
@@ -272,6 +259,7 @@ function updateInput() {
     document.getElementById("showSum").textContent = "TOTAL: " + sum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     document.getElementById("cash").textContent = "DINHEIRO: " + cashSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     document.getElementById("etcTitle").textContent = `${etcCount} NOTINHAS: ${subSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+    document.getElementById("subTotal").textContent = `SUBTOTAL: ${subTotal.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`;
     document.querySelectorAll(".etc").forEach((input) => {
         if (input.value < 1 && !input.id) {
             control++;
@@ -407,6 +395,7 @@ document.addEventListener("keydown", (function (event) {
                 document.getElementById("time").textContent = `${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} `;
                 findAndClear();
                 signature.classList.remove("hidden");
+                document.getElementById("subTotal").classList.remove("hidden");
                 changePosition();
             } catch (err) {
                 alert("Ocorreu um erro ao imprimir > " + err);
@@ -416,6 +405,7 @@ document.addEventListener("keydown", (function (event) {
             }
             setTimeout(function () {
                 signature.classList.add("hidden");
+                document.getElementById("subTotal").classList.add("hidden");
                 goToFreeInput();
             }, 300);
             break;
@@ -507,11 +497,11 @@ document.addEventListener("keydown", (function (event) {
             registerStatus.textContent == `editando '${login}'` ? create_uName.focus() : null;
             registerStatus.textContent == `editando '${login}'` ? document.getElementById("registerTitle").textContent = "Edição" : null;
             break;
-        case "F10":
+        case "F12":
             event.preventDefault();
             tools();
             break;
-        case "F1":
+        case "F10":
             event.preventDefault();
             simpleLock = true;
             hiddenAll();
@@ -579,7 +569,6 @@ tools = () => {
         document.getElementById("obsText").focus();
     }, 200);
 };
-
 
 function saveState() {
     const inputs = document.querySelectorAll('.etc');
@@ -913,7 +902,6 @@ qrCodeSet = () => {
     userText.length <= 0 ? userText = "Nada" : null;
     document.getElementById("qr").setAttribute("src", `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${userText}`);
     document.getElementById("obsText").focus();
-
 };
 
 function hClass(opt, index, toolName, startPoint) {
@@ -948,14 +936,16 @@ function hClass(opt, index, toolName, startPoint) {
 sClass = () => {
     document.getElementById("qrTable").classList.add("hidden");
     document.getElementById("barrasTable").classList.add("hidden");
+    document.getElementById("backSec").classList.add("hidden");
+    document.getElementById("etiquetar").classList.add("hidden");
+
     document.getElementById("barSec").classList.remove("hidden");
     document.getElementById("qrSec").classList.remove("hidden");
     document.getElementById("etiSec").classList.remove("hidden");
     document.getElementById("caSec").classList.remove("hidden");
     document.getElementById("obsText").classList.remove("hidden");
     document.getElementById("fontLabel").classList.remove("hidden");
-    document.getElementById("backSec").classList.add("hidden");
-    document.getElementById("etiquetar").classList.add("hidden");
+
     optName.textContent = "Escreva algo ⤵";
     document.getElementById("obsText").focus();
 };
