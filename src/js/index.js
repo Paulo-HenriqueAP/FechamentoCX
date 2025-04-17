@@ -132,6 +132,7 @@ function showUserInfos() {
     document.getElementById("printerSettings").remove();
     document.getElementById("loginHub").remove();
     document.getElementById("tutoDiv").classList.remove("hidden");
+    //document.getElementById("newLoginValue").requestFullscreen();
 };
 
 function createEditFolk() {
@@ -214,10 +215,10 @@ function formSum() {
         });
         sum += sanSum;
     };
-  
-    sum+=  devSum2 + pixSum2 + notiSum2
+
+    sum += devSum2 + pixSum2 + notiSum2
     subTotal = sum - notiSum;
-    
+
     updateInput();
 };
 
@@ -524,8 +525,30 @@ document.addEventListener("keydown", (function (event) {
             event.preventDefault();
             jumpBack();
             break;
+        case "F1":
+            event.preventDefault();
+            simpleLock = true;
+            dPaper();
+            break;
     };
 }));
+
+function  dPaper() {
+const title = document.createElement("h3");
+const val = document.createElement("li");
+const clie = document.createElement("li");
+const end = document.createElement("h3");
+
+title.innerHTML = `ENTREGA ${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} <br> [${cashier}] ${nameText.textContent}`
+val.innerHTML = "VALOR: <br><br>";
+clie.innerHTML = "CLIENTE: <br><br>";
+end.innerHTML = "DIN $ [  ] PIX [  ] CARTÃO [ ]";
+
+document.getElementById("dPaper").append(title, val, clie, end);
+hiddenAll();
+window.print();
+location.reload();
+}
 
 function hiddenAll() {
     bodyTable.classList.add("hidden");
@@ -761,7 +784,7 @@ function loadState() {
     pixCount2 >= 1 ? document.getElementById("sNTpix").classList.remove("hidden") : null;
     etcCount2 >= 1 ? document.getElementById("sNTNotinhas").classList.remove("hidden") : null;
     devSum2 >= 1 ? document.getElementById("sNTdev").classList.remove("hidden") : null;
-    
+
     formSum();
     goToFreeInput();
 };

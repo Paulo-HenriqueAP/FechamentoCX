@@ -702,3 +702,16 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: 1px 1px 1px 1px #16161D;
     border-radius: 3px;
 }
+
+#dPaper {
+    max-width: 71mm;
+    background-color: #37b4aa;
+    text-align: left;
+    text-align: center;
+}
+
+#dPaper li {
+    font-size: large;
+    border-bottom: 1px solid;
+    text-align: left;
+}
