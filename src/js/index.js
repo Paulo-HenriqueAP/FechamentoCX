@@ -1,7 +1,7 @@
 let nameText = document.getElementById("uName");
 let loginText = document.getElementById("uLogin");
 let sum = 0;
-let subSum = 0;
+let notiSum = 0;
 let cashSum = 0;
 let devSum = 0;
 let subTotal = 0;
@@ -30,6 +30,12 @@ let sViasSaved = [];
 let day;
 let optName = document.getElementById("toolsH2");
 let cadastrar = [];
+let pixCount2 = 0;
+let devCount2 = 0;
+let etcCount2 = 0;
+let notiSum2 = 0;
+let devSum2 = 0;
+let pixSum2 = 0;
 
 const topo = document.getElementById("stuffs");
 const signature = document.getElementById("signature");
@@ -165,7 +171,7 @@ function saveFolks() {
 
 function formSum() {
     sum = 0;
-    subSum = 0;
+    notiSum = 0;
     cashSum = 0;
     devSum = 0;
     pixSum = 0;
@@ -197,7 +203,7 @@ function formSum() {
             pixSum += iValue;
         } else {
             etcCount++
-            subSum += iValue;
+            notiSum += iValue;
         };
         sum += iValue;
     });
@@ -208,8 +214,10 @@ function formSum() {
         });
         sum += sanSum;
     };
-    subTotal = cashSum + sanSum + devSum + pixSum;
-
+  
+    sum+=  devSum2 + pixSum2 + notiSum2
+    subTotal = sum - notiSum;
+    
     updateInput();
 };
 
@@ -258,8 +266,8 @@ function updateInput() {
 
     document.getElementById("showSum").textContent = "TOTAL: " + sum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     document.getElementById("cash").textContent = "DINHEIRO: " + cashSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    document.getElementById("etcTitle").textContent = `${etcCount} NOTINHAS: ${subSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
-    document.getElementById("subTotal").textContent = `SUBTOTAL: ${subTotal.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})}`;
+    document.getElementById("etcTitle").textContent = `${etcCount} NOTINHAS: ${notiSum.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
+    document.getElementById("subTotal").textContent = `SUBTOTAL: ${subTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
     document.querySelectorAll(".etc").forEach((input) => {
         if (input.value < 1 && !input.id) {
             control++;
@@ -397,6 +405,8 @@ document.addEventListener("keydown", (function (event) {
                 signature.classList.remove("hidden");
                 document.getElementById("subTotal").classList.remove("hidden");
                 changePosition();
+                console.log(localStorage.getItem("sViasSaved"))
+                localStorage.getItem("sViasSaved") ? document.getElementById("sanNotinhasUL").parentElement.classList.remove("hidden") : null;
             } catch (err) {
                 alert("Ocorreu um erro ao imprimir > " + err);
                 location.reload()
@@ -406,6 +416,7 @@ document.addEventListener("keydown", (function (event) {
             setTimeout(function () {
                 signature.classList.add("hidden");
                 document.getElementById("subTotal").classList.add("hidden");
+                document.getElementById("sanNotinhasUL").parentElement.classList.add("hidden")
                 goToFreeInput();
             }, 300);
             break;
@@ -482,7 +493,7 @@ document.addEventListener("keydown", (function (event) {
             break;
         case "F2":
             event.preventDefault();
-            hiddenAll()
+            hiddenAll();
             sangriaElement.classList.remove("hidden");
             sangriaInput.focus();
             break;
@@ -711,11 +722,26 @@ function loadState() {
             Object.entries(obj).forEach(([key, values]) => {
                 const nSangria = document.createElement("div");
                 key == "sVdevolucoes" ? nSangria.innerHTML = "<br>DEVOLUÇÕES <br><br>" : nSangria.innerHTML = `<br>${key.toUpperCase().slice(2)} <br><br>`;
-                key == "sVnotinhas" ? nSangria.style = "border:none" : null
+                key == "sVpix" ? nSangria.style = "border:none" : null
                 values.forEach(val => {
                     const span = document.createElement("span");
                     span.textContent = val;
                     nSangria.appendChild(span);
+                    console.log(key)
+                    switch (key) {
+                        case "sVnotinhas":
+                            etcCount2++;
+                            notiSum2 += val;
+                            break;
+                        case "sVpix":
+                            pixCount2++;
+                            pixSum2 += val;
+                            break;
+                        case "sVdevolucoes":
+                            devCount2++;
+                            devSum2 += val;
+                            break;
+                    }
                 });
                 div.appendChild(nSangria);
 
@@ -728,6 +754,14 @@ function loadState() {
         });
     }
 
+    document.getElementById("sNTpix").innerHTML = `${pixCount2} PIX CELULAR <b>${parseFloat(pixSum2)}$</b>`;
+    document.getElementById("sNTNotinhas").innerHTML = `${etcCount2} NOTINHAS<b>${parseFloat(notiSum2)}$</b>`;
+    document.getElementById("sNTdev").innerHTML = `${devCount2} DEVOLUÇÕES <b>${parseFloat(devSum2)}$</b>`;
+
+    pixCount2 >= 1 ? document.getElementById("sNTpix").classList.remove("hidden") : null;
+    etcCount2 >= 1 ? document.getElementById("sNTNotinhas").classList.remove("hidden") : null;
+    devSum2 >= 1 ? document.getElementById("sNTdev").classList.remove("hidden") : null;
+    
     formSum();
     goToFreeInput();
 };
@@ -848,6 +882,9 @@ function saveSangriaVias() {
     let sVpix = []
 
     if (window.confirm("A gerência confirmou? ▪ ALTERNE COM TAB.")) {
+        alert("Imprima a sua via!");
+        document.getElementById("cx").innerHTML = `[${cashier}]<br><b>2ª via SANGRIA</b>`;
+        window.print();
         document.querySelectorAll(".etc").forEach((input) => {
             if (input.value.trim() === "") {
                 return;
@@ -868,7 +905,7 @@ function saveSangriaVias() {
             }
         });
 
-        sViasSaved.push({ sVnotinhas, sVdevolucoes, sVpix });
+        sViasSaved.push({ sVpix, sVnotinhas, sVdevolucoes });
         localStorage.setItem("sViasSaved", JSON.stringify(sViasSaved));
 
         document.querySelectorAll(".etc").forEach((input) => {

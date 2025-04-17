@@ -45,7 +45,7 @@
             <input type="text" id="nameValue" onchange="simpleCheck()">
         </li>
         <button id="saveButton" onclick="saveFolks()">salvar</button>
-       <h6 style="color: slategray;">▪ F5 cancela</h6>
+        <h6 style="color: slategray;">▪ F5 cancela</h6>
         <button onclick="defCashier()" id="cxName">Alterar caixa</button>
     </div>
 
@@ -61,7 +61,7 @@
         <ul id="sangriaEdit" style="border-bottom: 2px solid black;padding-bottom: 10px;">
         </ul>
         <ul id="sangriaVias">
-            <h4>DE NOTINHAS > <img style="vertical-align: middle;" class="keyIconsSmall"
+            <h4>DE NOTINHAS: INSIRA <img style="vertical-align: middle;" class="keyIconsSmall"
                     src="src/icons/keys/0_Key_Light.png" alt="0"></h4>
         </ul>
     </div>
@@ -96,7 +96,7 @@
             Tamanho da fonte
             <input type="number" id="fontSizeVar" style="width: 50px; text-align: center;" value="13"
                 onchange="changeFontSize()" min="1"> px
-                <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
+            <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
         </b>
 
         <section style="background-color: skyblue;" id="barSec">
@@ -244,11 +244,20 @@
         </tr>
 
         <tr>
-            <th id="subTotal" style="border-top: none; padding: 6px;" class="hidden">SubTotal</th>
+            <td class="hidden">
+                <b id="etcTitle2">SANGRIA NT</b>
+                <br>
+                <ul id="sanNotinhasUL">
+                    <li id="sNTpix" class="hidden" style="border-top: 1px dashed; padding-top: 10px;"></li>
+                    <li id="sNTNotinhas" class="hidden"></li>
+                    <li id="sNTdev" class="hidden"></li>
+                </ul>
+
+            </td>
         </tr>
 
         <tr>
-            <th id="etcTitle">VIAS</th>
+            <th id="etcTitle">NOTINHAS</th>
         </tr>
 
         <tr>
@@ -262,6 +271,10 @@
         <tr>
             <td id="devValues"></td>
         </tr>
+        </tr>
+
+        <tr>
+            <th id="subTotal" style="padding: 10px; font-size: large;" class="hidden">SubTotal</th>
         </tr>
 
         <tr style="border-bottom: 0.5px solid;">
@@ -291,26 +304,35 @@
 
     <div class="howTo hidden" id="tutoDiv">
         <!-- <span style="font-size: x-large;">Como usar</span> <br><br>-->
-       <!-- <li style="border-top: none;"><img src="src/icons/keys/Enter_Key_Light.png" alt="ENTER" class="keyIcons"><strong>avança</strong> </li>-->
-        <li><img src="src/icons/keys/A_Key_Light.png" alt="A" class="keyIcons" class="keyIcons"> <strong>foca em AVULSO</strong></li>
+        <!-- <li style="border-top: none;"><img src="src/icons/keys/Enter_Key_Light.png" alt="ENTER" class="keyIcons"><strong>avança</strong> </li>-->
+        <li><img src="src/icons/keys/A_Key_Light.png" alt="A" class="keyIcons" class="keyIcons"> <strong>foca em
+                AVULSO</strong></li>
 
-        <li><img src="src/icons/keys/L_Key_Light.png" alt="L" class="keyIcons" class="keyIcons"> <strong> primeiro livre</strong></li>
+        <li><img src="src/icons/keys/L_Key_Light.png" alt="L" class="keyIcons" class="keyIcons"> <strong> primeiro
+                livre</strong></li>
 
         <li><img src="src/icons/keys/V_Key_Light.png" alt="V" class="keyIcons"> <strong>volta</strong></li>
 
-        <li><img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2" class="keyIcons"> <strong>sangrias</strong></li>
+        <li><img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2"
+                class="keyIcons"> <strong>sangrias</strong></li>
 
-        <li><img src="src/icons/keys/F4_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F4" class="keyIcons"> <strong>imprimir</strong></li>
+        <li><img src="src/icons/keys/F4_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F4"
+                class="keyIcons"> <strong>imprimir</strong></li>
 
-        <li><img src="src/icons/keys/F8_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F8" class="keyIcons"> <strong>encerrar seção</strong></strong></li>
+        <li><img src="src/icons/keys/F8_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F8"
+                class="keyIcons"> <strong>encerrar seção</strong></strong></li>
 
-        <li><img src="src/icons/keys/F9_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F9" class="keyIcons"> <strong>editar seu nome</strong></li>
+        <li><img src="src/icons/keys/F9_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F9"
+                class="keyIcons"> <strong>editar seu nome</strong></li>
 
-        <li><img src="src/icons/keys/F10_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F10" class="keyIcons"> <strong>solicitar</strong></li>
+        <li><img src="src/icons/keys/F10_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;"
+                alt="F10" class="keyIcons"> <strong>solicitar</strong></li>
 
-        <li style="cursor: pointer;" onclick="tools()"><img src="src/icons/keys/F12_Key_Light.png" alt="F12" class="keyIcons"> <strong>ferramentas</strong></li>
+        <li style="cursor: pointer;" onclick="tools()"><img src="src/icons/keys/F12_Key_Light.png" alt="F12"
+                class="keyIcons"> <strong>ferramentas</strong></li>
 
-        <li><img src="src/icons/keys/F11_Key_Light.png" alt="F11" class="keyIconsSmall"> + <img src="src/icons/keys/F5_Key_Light.png" alt="F5" class="keyIconsSmall"> <strong>destrava</strong></li>
+        <li><img src="src/icons/keys/F11_Key_Light.png" alt="F11" class="keyIconsSmall"> + <img
+                src="src/icons/keys/F5_Key_Light.png" alt="F5" class="keyIconsSmall"> <strong>destrava</strong></li>
     </div>
 
     <div id="printerSettings">
