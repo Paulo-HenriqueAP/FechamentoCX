@@ -35,14 +35,8 @@ td {
 }
 
 input.becomeDev {
-    /*background-color: #009440;*/
-    /*background-color: #00c756;*/
     background-color: crimson;
     border-radius: 3px;
-}
-
-input.becomeSin {
-    background-color: #ffcb00;
 }
 
 input.becomePix {
@@ -50,9 +44,6 @@ input.becomePix {
     border-radius: 3px;
 }
 
-input.becomeError {
-    background-color: #d80013;
-}
 
 li {
     list-style: none;
@@ -246,9 +237,7 @@ input {
 
     #etcTitle,
     #dev,
-    #sin,
     #pix,
-    #error,
     #sangriasTitle {
         border: none;
     }
@@ -391,7 +380,6 @@ h4 {
     width: max-content;
     position: absolute;
     right: 5%;
-
     margin: 0px;
     padding: 0px;
 }
@@ -705,7 +693,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 #dPaper {
     max-width: 71mm;
-    background-color: #37b4aa;
     text-align: left;
     text-align: center;
 }
@@ -714,4 +701,8 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: large;
     border-bottom: 1px solid;
     text-align: left;
+}
+
+#pickJson {
+    display: none;
 }

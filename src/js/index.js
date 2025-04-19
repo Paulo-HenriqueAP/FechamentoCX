@@ -13,6 +13,7 @@ let create;
 let control = 0;
 let allInputs;
 let simpleLock = true;
+let master = false;
 let registerStatus = document.getElementById("regStatus");
 let create_loginCode = document.getElementById("newLoginValue");
 let create_uName = document.getElementById("nameValue");
@@ -36,6 +37,10 @@ let etcCount2 = 0;
 let notiSum2 = 0;
 let devSum2 = 0;
 let pixSum2 = 0;
+
+const dataJson = [];
+const inputsSaved = [];
+const classSaved = [];
 
 const topo = document.getElementById("stuffs");
 const signature = document.getElementById("signature");
@@ -66,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.keys(holidays).forEach(hol => {
         day === hol ? setHol() : null;
     });
-    document.getElementById("date").textContent = `${new Date().toLocaleDateString()}`;
     document.getElementById("cx").textContent = `[${cashier}]`;
     document.getElementById("cxName").textContent = `Alterar caixa [${cashier}]`
 });
@@ -107,11 +111,19 @@ function createInputs() {
 function showUserInfos() {
     dateNow = new Date().toLocaleDateString();
     !localStorage.getItem("abriuFechamento") ? localStorage.setItem("abriuFechamento", dateNow) : null;
+
     login = document.getElementById("loginValue").value;
-    login === "06052002" ? window.open("reconstruirFechamento/index.html") : null;
+
+    if (login === "06052002" || login === "-06052002") {
+        login == "06052002" ? master = true : master = false;
+        localStorage.setItem("master", master);
+        document.getElementById("pickJson").style = "display: flex;";
+        return
+    }
     if (folks && folks.length > 0) {
         loginFind = folks.find(user => user.loginCod == login);
     };
+    localStorage.getItem("abriuFechamento") ? document.getElementById("date").textContent = localStorage.getItem("abriuFechamento") : document.getElementById("date").textContent = dateNow;
 
     if (loginFind) {
         nameText.textContent = loginFind.uName;
@@ -163,8 +175,8 @@ function saveFolks() {
         document.getElementById("registerTitle").textContent = `Login '${loginText.textContent}' foi criado`;
         localStorage.setItem("LastLoginCode", login);
     }
-    folksJson = JSON.stringify(folks);
-    localStorage.setItem("folks", folksJson);
+
+    localStorage.setItem("folks", JSON.stringify(folks));
     setTimeout(function () {
         location.reload();
     }, 1000)
@@ -332,6 +344,36 @@ function goToFreeInput() {
 };
 
 function findAndClear() {
+    let devValues = document.getElementsByClassName("becomeDev");
+
+    for (let i = 0; i < devValues.length; i++) {
+        const sendToDev = document.createElement("input");
+        sendToDev.value = devValues[i].value;
+        sendToDev.classList.add("tempInput");
+        sendToDev.value.length >= 8 ? sendToDev.style.width = `${sendToDev.value.length}ch` : null;
+
+        document.getElementById("devValues").appendChild(sendToDev);
+        setTimeout(function () {
+            if (master) return;
+            sendToDev.remove();
+        }, 1000);
+    };
+
+    let pixValues = document.getElementsByClassName("becomePix");
+
+    for (let i = 0; i < pixValues.length; i++) {
+        const sendToPix = document.createElement("input");
+        sendToPix.value = pixValues[i].value;
+        sendToPix.classList.add("tempInput");
+        sendToPix.value.length >= 8 ? sendToPix.style.width = `${sendToPix.value.length}ch` : null;
+
+        document.getElementById("pixValues").appendChild(sendToPix);
+        setTimeout(function () {
+            if (master) return;
+            sendToPix.remove();
+        })
+    }
+    if (master) return;
     document.querySelectorAll(".etc").forEach((input) => {
         if (input.value == "" && !input.id) {
             input.classList.add("hidden");
@@ -348,39 +390,10 @@ function findAndClear() {
             }, 500);
         };
     });
-
-
-    let devValues = document.getElementsByClassName("becomeDev");
-
-    for (let i = 0; i < devValues.length; i++) {
-        const sendToDev = document.createElement("input");
-        sendToDev.value = devValues[i].value;
-        sendToDev.classList.add("tempInput");
-        sendToDev.value.length >= 8 ? sendToDev.style.width = `${sendToDev.value.length}ch` : null;
-
-        document.getElementById("devValues").appendChild(sendToDev);
-        setTimeout(function () {
-            sendToDev.remove();
-        }, 1000);
-    };
-
-    let pixValues = document.getElementsByClassName("becomePix");
-
-    for (let i = 0; i < pixValues.length; i++) {
-        const sendToPix = document.createElement("input");
-        sendToPix.value = pixValues[i].value;
-        sendToPix.classList.add("tempInput");
-        sendToPix.value.length >= 8 ? sendToPix.style.width = `${sendToPix.value.length}ch` : null;
-
-        document.getElementById("pixValues").appendChild(sendToPix);
-        setTimeout(function () {
-            sendToPix.remove();
-        })
-    }
 };
 
 function clearAll() {
-    const keepIt = ["folks", "cashier"]
+    const keepIt = ["folks", "cashier", "master"]
     const dataSaved = Object.keys(localStorage)
     dataSaved.forEach(key => {
         if (!keepIt.includes(key)) {
@@ -406,7 +419,6 @@ document.addEventListener("keydown", (function (event) {
                 signature.classList.remove("hidden");
                 document.getElementById("subTotal").classList.remove("hidden");
                 changePosition();
-                console.log(localStorage.getItem("sViasSaved"))
                 localStorage.getItem("sViasSaved") ? document.getElementById("sanNotinhasUL").parentElement.classList.remove("hidden") : null;
             } catch (err) {
                 alert("Ocorreu um erro ao imprimir > " + err);
@@ -533,21 +545,21 @@ document.addEventListener("keydown", (function (event) {
     };
 }));
 
-function  dPaper() {
-const title = document.createElement("h3");
-const val = document.createElement("li");
-const clie = document.createElement("li");
-const end = document.createElement("h3");
+function dPaper() {
+    const title = document.createElement("h3");
+    const val = document.createElement("li");
+    const clie = document.createElement("li");
+    const end = document.createElement("h3");
 
-title.innerHTML = `ENTREGA ${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} <br> [${cashier}] ${nameText.textContent}`
-val.innerHTML = "VALOR: <br><br>";
-clie.innerHTML = "CLIENTE: <br><br>";
-end.innerHTML = "DIN $ [  ] PIX [  ] CARTÃO [ ]";
+    title.innerHTML = `ENTREGA ${new Date().toLocaleDateString()} | ${new Date().toLocaleTimeString()} <br> [${cashier}] ${nameText.textContent}`
+    val.innerHTML = "VALOR: <br><br>";
+    clie.innerHTML = "CLIENTE: <br><br>";
+    end.innerHTML = "CARTÃO [ ] DIN $ [  ]  PIX [  ] <br><br> <span>-</span>";
 
-document.getElementById("dPaper").append(title, val, clie, end);
-hiddenAll();
-window.print();
-location.reload();
+    document.getElementById("dPaper").append(title, val, clie, end);
+    hiddenAll();
+    window.print();
+    location.reload();
 }
 
 function hiddenAll() {
@@ -584,6 +596,7 @@ function changePosition() {
         moveTo--;
         document.getElementById("trC" + moveTo).appendChild(document.getElementById(element));
     };
+    if (master) return;
 
     setTimeout(function () {
         moveTo = 4
@@ -617,7 +630,6 @@ function saveState() {
         localStorage.setItem(`class${index} `, input.classList.toString());
     });
     notEmp > 40 ? localStorage.setItem("allInputs", notEmp) : localStorage.removeItem("allInputs");
-    //localStorage.setItem("time", `${ new Date().toLocaleDateString() } - ${ new Date().toLocaleTimeString() } `);
 };
 
 function loadState() {
@@ -627,9 +639,8 @@ function loadState() {
         };
     });
     control < 2 ? createInputs() : null;
-    folksJson = localStorage.getItem("folks");
 
-    folks = JSON.parse(folksJson);
+    folks = JSON.parse(localStorage.getItem("folks"));
 
     if (localStorage.getItem("sangriasSaved")) {
         sangriasSaved = JSON.parse(localStorage.getItem("sangriasSaved"));
@@ -750,7 +761,6 @@ function loadState() {
                     const span = document.createElement("span");
                     span.textContent = val;
                     nSangria.appendChild(span);
-                    console.log(key)
                     switch (key) {
                         case "sVnotinhas":
                             etcCount2++;
@@ -787,6 +797,28 @@ function loadState() {
 
     formSum();
     goToFreeInput();
+    master = JSON.parse(localStorage.getItem("master"));
+
+    if (master == true) {
+        document.getElementById("subTotal").classList.remove("hidden");
+        document.getElementById("sanNotinhasUL").parentElement.classList.remove("hidden");
+        sangriaElement.classList.remove("hidden");
+        sangriaElement.style = "transform:none; left:60%;";
+        document.getElementById("filters").classList.add("hidden");
+        document.getElementById("tutoDiv").classList.add("hidden")
+        findAndClear();
+        changePosition();
+
+        button = document.createElement("button");
+        button.textContent = "FINALIZAR";
+        button.style = "padding:10px; background-color: black; color:white; cursor:pointer;";
+
+        button.addEventListener("click", function () {
+            clearAll()
+        })
+
+        sangriaElement.append(button)
+    }
 };
 
 simpleCheck = () => {
@@ -1070,11 +1102,6 @@ document.getElementById("pTouch").addEventListener("touchstart", () => {
     applyFilter("becomePix")
 }, { passive: true });
 
-/*document.getElementById("eTouch").addEventListener("touchstart", () => {
-    if (simpleLock) return;
-    putItOnError();
-}, { passive: true });
-*/
 function setHol() {
     document.getElementById("hiddenHol").classList.remove("hidden");
     document.getElementById("holName").textContent = holidays[day].holName;
@@ -1105,49 +1132,28 @@ function labelProduct() {
 };
 
 function processJson() {
-    let data = document.querySelectorAll('.etc');
-    let dataJson = [];
-
-    let inputsNormais = [];
-    let inputsDevolucoes = [];
-    let inputsPix = [];
-    //let inputsErros = [];
-
-
-    data.forEach((input) => {
-        if (!input.value == "" && !input.id) {
-            if (input.classList.contains("becomeDev")) {
-                inputsDevolucoes.push(input.value);
-            } else if (input.classList.contains("becomePix")) {
-                inputsPix.push(input.value);
-            } else {
-                inputsNormais.push(input.value);
-            }
-        }
-    });
     dataJson.push({ dia: localStorage.getItem("abriuFechamento") });
     dataJson.push(loginFind);
     dataJson.push({ caixa: cashier });
 
-    dataJson.push({ notas_50_100_200: document.getElementById("stuffs50_100_200").value });
-    dataJson.push({ notas_20: document.getElementById("stuffs20").value });
-    dataJson.push({ notas_10: document.getElementById("stuffs10").value });
-    dataJson.push({ avulso: document.getElementById("stuffs").value });
+    const inputs = document.querySelectorAll('.etc');
+    inputs.forEach((input) => {
+        inputsSaved.push(input.value)
+        classSaved.push(input.classList.toString())
+    });
 
-    dataJson.push({ notinhas: inputsNormais });
-    dataJson.push({ devolucoes: inputsDevolucoes });
-    dataJson.push({ pixCel: inputsPix });
-    //dataJson.push({ erros: inputsErros });
+    dataJson.push(inputsSaved);
+    dataJson.push(classSaved);
 
-    dataJson.push({ sangrias: sangriasSaved });
-    dataJson.push({ sangriasCartoes: sViasSaved });
+    dataJson.push({ tamanho: allInputs })
 
+    dataJson.push(sangriasSaved);
+    dataJson.push(sViasSaved);
 
-    saveJson = JSON.stringify(dataJson, null, 2);
     fileName = `${localStorage.getItem("abriuFechamento")}-${nameText.textContent}-${login}`;
-    //console.log(dateNow)
+
     try {
-        exportJson(saveJson, fileName);
+        exportJson(JSON.stringify(dataJson, null, 2), fileName);
     } catch (err) {
         alert("ERRO AO EXPORTAR> " + err);
         location.reload();
@@ -1171,9 +1177,49 @@ function exportJson(items, jsonName, msg) {
         location.reload();
     }
 };
+
 /*
 var i;
 for (i = 0; i < localStorage.length; i++) {
     console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
 }
     */
+
+function rebFechamentoJSON(event) {
+    const jfile = event.target.files[0];
+
+    if (jfile) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            try {
+                data = JSON.parse(e.target.result);
+            } catch (err) {
+                alert("ERRO AO PROCESSAR: " + err);
+                location.reload()
+            }
+            finally {
+                localStorage.setItem("abriuFechamento", data[0].dia);
+                folksA = [data[1]];
+                localStorage.setItem("folks", JSON.stringify(folksA));
+                localStorage.setItem("LastLoginCode", data[1].loginCod)
+                localStorage.setItem("cashier", data[2].caixa)
+
+                for (let i = 0; i < data[3].length; i++) {
+                    localStorage.setItem(`input${i} `, data[3][i])
+                }
+
+                for (let i = 0; i < data[4].length; i++) {
+                    localStorage.setItem(`class${i} `, data[4][i])
+                }
+            }
+
+            localStorage.setItem("allInputs", data[5].tamanho);
+            localStorage.setItem("sangriasSaved", JSON.stringify(data[6]))
+            localStorage.setItem("sViasSaved", JSON.stringify(data[7]));
+
+        };
+        reader.readAsText(jfile);
+    }
+    location.reload();
+}

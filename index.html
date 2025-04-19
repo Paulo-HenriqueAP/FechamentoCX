@@ -30,6 +30,8 @@
             <!--placeholder="&lt....&gt"-->
             <input id="loginValue" type="number" placeholder="...." onchange="showUserInfos()">
         </section>
+
+        <h3 id="pickJson">SELECIONE O JSON GERADO: <input type="file" id="jsonFile" accept=".json" onchange="rebFechamentoJSON(event)"></h3>
     </div>
 
     <div id="registerHub" class="hidden">
@@ -315,7 +317,7 @@
         <li><img src="src/icons/keys/V_Key_Light.png" alt="V" class="keyIcons"> <strong>volta</strong></li>
 
         <li><img src="src/icons/keys/F1_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F1"
-            class="keyIcons"> <strong>papel entrega</strong></li>
+            class="keyIcons"> <strong>papel de entrega</strong></li>
 
         <li><img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2"
                 class="keyIcons"> <strong>sangrias</strong></li>
