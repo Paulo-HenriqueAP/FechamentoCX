@@ -13,12 +13,10 @@
 <body>
     <div id="dPaper"></div>
     <div id="requestProduct" class="hidden">
-        <b>SOLICITAR CADASTRO DE PRODUTO</b>
-        <br>
-        <br>
-        <span style=" color: slategray; font-size: x-small;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
-        <br>
-        <br>
+        <b style=" margin-bottom: 20px; display: block;">SOLICITAR CADASTRO DE PRODUTO</b>
+        <span style=" color: slategray; font-size: x-small; display: block; margin-bottom: 15px;">▪ F5 CANCELA (sem
+            salvar) | NAVEGUE
+            COM TAB</span>
         <li>Nome produto: <input type="text" id="requestPName"
                 onchange="document.getElementById('requestPCod').focus()"></li>
 
@@ -30,8 +28,6 @@
             <!--placeholder="&lt....&gt"-->
             <input id="loginValue" type="number" placeholder="...." onchange="showUserInfos()">
         </section>
-
-        <h3 id="pickJson">SELECIONE O JSON GERADO: <input type="file" id="jsonFile" accept=".json" onchange="rebFechamentoJSON(event)"></h3>
     </div>
 
     <div id="registerHub" class="hidden">
@@ -54,8 +50,6 @@
 
     <div class="hidden" id="sangria">
         <b style="font-size: x-large;">SANGRIAS</b>
-        <br>
-        <br>
         <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
         <br>
         <input style="font-size: large; margin-top: 20px; height: 30px;" type="number" min="300" id="sangriaInput"
@@ -71,15 +65,13 @@
 
     <div id="sangriaTable" class="hidden">
         <div style="text-align: center;">
-            <span id="oper"></span>
-            <br>
+            <span id="oper" style="display: block;"></span>
             <b id="operCod" style="font-size: large;"></b>
             <span id="cxNumber" style="font-size: large;"></span>
-            <br>------------------------------------</br>
+            <br>
+            <b>------------------------------------</b>
             <div id="sumSangria" style="max-width: 71mm; word-wrap: break-word;"></div>
-            <br>
-            <span>______________________________</span>
-            <br>
+            <span style="display: block; margin-top: 30px;">______________________________</span>
             <span id="timeSangria"></span>
         </div>
     </div>
@@ -102,6 +94,10 @@
             <span style="font-size: X-small; color: slategray;">▪ F5 CANCELA | NAVEGUE COM TAB</span>
         </b>
 
+        <section style="background-color: burlywood;" id="reqSec">
+            <button onclick="reqProd()">▪ Cadastro produto</button>
+        </section>
+
         <section style="background-color: skyblue;" id="barSec">
             <button onclick="hClass('barrasTable', 0, 'Código de barras', 'barrasValue')">▪ Código de barras</button>
         </section>
@@ -113,13 +109,17 @@
 
         <section style="background-color: coral;" id="etiSec">
             <button onclick="hClass('etiquetar', 2, 'Etiquetar produtos','etiNameValue')">▪
-                Etiquetar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                Etiqueta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
         </section>
 
         <section style="background-color: silver;" id="caSec">
             <a href="https://paulo-henriqueap.github.io/caca-palavras/" target="_blank"
                 rel="noopener noreferrer">&nbsp;▪ Caça palavras&nbsp;&nbsp;&nbsp;&nbsp;
             </a>
+        </section>
+
+        <section style="background-color: white;" id="jsonSec">
+            <button onclick="clearAll()">▪ Fim sem JSON&nbsp;&nbsp;&nbsp;&nbsp;</button>
         </section>
 
         <div id="qrTable" class="hidden">
@@ -206,7 +206,7 @@
         <tr id="trC0">
             <td class="sTD" id="td0">AVULSO
                 <span class="arrow">
-                    <input min="-1" onchange="formSum()" id="stuffs" type="number" class="etc">
+                    <input min="-1" onchange="formSum()" id="stuffs" type="number" class="dynamicInputs">
                 </span>
             </td>
         </tr>
@@ -214,7 +214,7 @@
         <tr id="trC1">
             <td class="sTD" id="td1">10
                 <span class="arrow">
-                    <input min="-1" onchange="formSum()" id="stuffs10" type="number" class="etc">
+                    <input min="-1" onchange="formSum()" id="stuffs10" type="number" class="dynamicInputs">
                 </span>
 
             </td>
@@ -223,7 +223,7 @@
         <tr id="trC2">
             <td class="sTD" id="td2">20
                 <span class="arrow">
-                    <input min="-1" onchange="formSum()" id="stuffs20" type="number" class="etc">
+                    <input min="-1" onchange="formSum()" id="stuffs20" type="number" class="dynamicInputs">
                 </span>
             </td>
         </tr>
@@ -231,7 +231,7 @@
         <tr id="trC3">
             <td class="sTD" id="td3">50 | 100 | 200
                 <span class="arrow">
-                    <input min="-1" onchange="formSum()" id="stuffs50_100_200" type="number" class="etc">
+                    <input min="-1" onchange="formSum()" id="stuffs50_100_200" type="number" class="dynamicInputs">
                 </span>
             </td>
         </tr>
@@ -248,7 +248,7 @@
 
         <tr>
             <td class="hidden">
-                <b id="etcTitle2">SANGRIA NT</b>
+                <b id="dynamicInputsTitle2">SANGRIA NT</b>
                 <br>
                 <ul id="sanNotinhasUL">
                     <li id="sNTpix" class="hidden" style="border-top: 1px dashed; padding-top: 10px;"></li>
@@ -260,12 +260,26 @@
         </tr>
 
         <tr>
-            <th id="etcTitle">NOTINHAS</th>
+            <th id="dynamicInputsTitle">NOTINHAS</th>
+        </tr>
+
+        <tr id="filtersMain" class="hidden">
+            <td>
+                <div id="filters">
+                    <span id="pTouch">
+                        <img src="src/icons/keys/P_Key_Light.png" alt="P" class="keyIconsxSmall"><b>PIX&nbsp;</b>
+                    </span>
+
+                    <span id="dTouch">
+                        <img src="src/icons/keys/D_Key_Light.png" alt="D" class="keyIconsxSmall"><b>DEVOLUÇÃO&nbsp;</b>
+                    </span>
+                </div>
+            </td>
         </tr>
 
         <tr>
             <td>
-                <ul id="etcValues"></ul>
+                <ul id="dynamicInputsValues"></ul>
             </td>
         </tr>
 
@@ -282,10 +296,9 @@
 
         <tr style="border-bottom: 0.5px solid;">
             <th>
-                <h1 id="showSum"></h1>
-                <div class="hidden" id="signature">
-                    <br>
-                    <span style="max-width: 71mm;">__________________________________</span>
+                <b id="showSum"></b>
+                <div id="signature" class="hidden">
+                    <span style="max-width: 71mm;">________________________________</span>
                     <br>
                     <span id="time" style="font-size: x-small;"></span>
                 </div>
@@ -293,17 +306,6 @@
         </tr>
         <td style="border-bottom: 0.5px solid;"></td>
     </table>
-
-    <div id="filters" class="hidden">
-        <h4>adicione/ remova</h4>
-        <li id="dTouch" style="border: 1px solid; border-color: black; background-color: crimson ;border-radius: 3px;">
-            <img src="src/icons/keys/D_Key_Light.png" alt="D" class="keyIconsSmall">
-            <b>DEVOLUÇÃO&nbsp;&nbsp;&nbsp;&nbsp;</b>
-        </li>
-        <li id="pTouch" style="border: 1px solid; border-color: black; background-color: #37b4aa;border-radius: 3px;">
-            <img src="src/icons/keys/P_Key_Light.png" alt="P" class="keyIconsSmall"> <b>PIX CELULAR&nbsp;&nbsp;</b>
-        </li>
-    </div>
 
     <div class="howTo hidden" id="tutoDiv">
         <!-- <span style="font-size: x-large;">Como usar</span> <br><br>-->
@@ -317,7 +319,7 @@
         <li><img src="src/icons/keys/V_Key_Light.png" alt="V" class="keyIcons"> <strong>volta</strong></li>
 
         <li><img src="src/icons/keys/F1_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F1"
-            class="keyIcons"> <strong>papel de entrega</strong></li>
+                class="keyIcons"> <strong>papel de entrega</strong></li>
 
         <li><img src="src/icons/keys/F2_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F2"
                 class="keyIcons"> <strong>sangrias</strong></li>
@@ -330,9 +332,6 @@
 
         <li><img src="src/icons/keys/F9_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;" alt="F9"
                 class="keyIcons"> <strong>editar seu nome</strong></li>
-
-        <li><img src="src/icons/keys/F10_Key_Light.png" onclick="sMobileEvents(event)" style="cursor: pointer;"
-                alt="F10" class="keyIcons"> <strong>solicitar</strong></li>
 
         <li style="cursor: pointer;" onclick="tools()"><img src="src/icons/keys/F12_Key_Light.png" alt="F12"
                 class="keyIcons"> <strong>ferramentas</strong></li>
@@ -350,8 +349,8 @@
         <!--<br><li>Seção anterior: <span id="lastTime" style="font-weight: bolder;"></span> </li>-->
     </div>
 </body>
+<script src="src/js/tools.js"></script>
 <script src="src/js/index.js"></script>
-
 <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
 
 </html>
