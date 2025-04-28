@@ -639,21 +639,26 @@ function loadState() {
     }
 }
 
+
 simpleCheck = () => {
     simpleLock = true;
     create_loginCode.value = login;
     create_uName.value = nameText.textContent;
 
     loginText.textContent = create_loginCode.value;
-    nameText.textContent = create_uName.value;
+    //nameText.textContent = create_uName.value;
+    //!create_uName.value == "" ? nameText.textContent = create_uName.value : null
 
     if (loginText.textContent == "") {
         document.getElementById("saveButton").classList.add("error");
         create_loginCode.focus();
+        //console.log("SEM LOGIN")
     } else if (nameText.textContent == "") {
         document.getElementById("saveButton").classList.add("error");
         create_uName.focus();
+        //console.log("Sem nome")
     } else {
+        //console.log("OK")
         document.getElementById("saveButton").classList.remove("error");
         document.getElementById("saveButton").focus();
     }
