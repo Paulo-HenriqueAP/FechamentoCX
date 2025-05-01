@@ -31,21 +31,15 @@
     </div>
 
     <div id="registerHub" class="hidden">
-        <span id="regStatus" style="font-size: small; color: slategray;"></span>
+        <span id="regStatus"></span>
 
-        <h4 id="registerTitle" style="text-align: center; margin-bottom: 20px;">Cadastro</h4>
-        <li>
-            <label for="newLoginValue">Login</label>
-            <input type="number" id="newLoginValue" onchange="">
+        <li style="display: block; margin-bottom: 20px;">
+            <label for="nameValue">Nome</label>
+            <input type="text" id="nameValue" onchange="simpleCheck(this), 'Criando novo'">
         </li>
 
-        <li>
-            <label for="nameValue">Nome&nbsp;</label>
-            <input type="text" id="nameValue" onchange="">
-        </li>
-        <button id="saveButton" onclick="saveFolks()">salvar</button>
-        <h6 style="color: slategray;">▪ F5 cancela</h6>
-        <button onclick="defCashier()" id="cxName">Alterar caixa</button>
+        <button id="saveButton" onclick="saveFolks()">salvar</button> <span style="color: slategray; font-size: x-small;">▪ F5 cancela</span>
+        <button onclick="defCashier()" id="cxName">caixa</button>
     </div>
 
     <div class="hidden" id="sangria">

@@ -34,7 +34,6 @@ const dataJson = [];
 const inputsSaved = [];
 const classSaved = [];
 const registerStatus = document.getElementById("regStatus");
-const create_loginCode = document.getElementById("newLoginValue");
 const create_uName = document.getElementById("nameValue");
 const topo = document.getElementById("stuffs");
 const signature = document.getElementById("signature");
@@ -66,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         day === hol && setHol();
     });
     document.getElementById("cx").textContent = `[${cashier}]`;
-    document.getElementById("cxName").textContent = `Alterar caixa [${cashier}]`
+    document.getElementById("cxName").textContent = `caixa [${cashier}]`
 })
 
 function setHol() {
@@ -125,9 +124,7 @@ function showUserInfos() {
         document.getElementById("oper").textContent = uName.textContent;
         goToFreeInput();
     } else {
-        registerHub.classList.remove("hidden");
-        registerStatus.textContent = `Login '${login}' não encontrado`;
-        simpleCheck();
+        simpleCheck(create_uName, `Login '${login}' não encontrado`);
     }
 
     document.getElementById("printerSettings").remove();
@@ -137,23 +134,21 @@ function showUserInfos() {
 }
 
 function saveFolks() {
+    simpleCheck(nameValue, `digite um nome '${login}'`);
     nameText.textContent = create_uName.value;
-    loginText.textContent = create_loginCode.value;
 
-    findToEdit = create_loginCode.value;
-    edit = folks.find(user => user.loginCod == findToEdit);
+    edit = folks.find(user => user.loginCod == login);
 
-    if (nameText.textContent == "" || loginText.textContent == "") return;
+    if (nameText.textContent == "") return;
 
     if (edit) {
         edit.uName = create_uName.value;
-        edit.loginCod = create_loginCode.value;
-        document.getElementById("registerTitle").textContent = `'${loginText.textContent}' foi editado`;
-        registerStatus.textContent = `editou '${login}'`
+        edit.loginCod = login;
+        registerStatus.textContent = `editou '${login}'`;
     } else {
-        createFolk = { uName: create_uName.value, loginCod: parseInt(create_loginCode.value) };
+        createFolk = { uName: create_uName.value, loginCod: parseInt(login) };
         folks.push(createFolk);
-        document.getElementById("registerTitle").textContent = `Login '${loginText.textContent}' foi criado`;
+        registerStatus.textContent = `criou '${login}'`;
         localStorage.setItem("LastLoginCode", login);
     }
 
@@ -640,28 +635,23 @@ function loadState() {
 }
 
 
-simpleCheck = () => {
+simpleCheck = (invoker, status, name) => {
     simpleLock = true;
-    create_loginCode.value = login;
-    create_uName.value = nameText.textContent;
+    hiddenAll();
+    registerHub.classList.remove("hidden");
+    registerStatus.textContent = status || `Salvar '${login}'`;
 
-    loginText.textContent = create_loginCode.value;
-    //nameText.textContent = create_uName.value;
-    //!create_uName.value == "" ? nameText.textContent = create_uName.value : null
+    if (name) create_uName.value = nameText.textContent;
 
-    if (loginText.textContent == "") {
+    if (create_uName.value == "") {
         document.getElementById("saveButton").classList.add("error");
-        create_loginCode.focus();
-        //console.log("SEM LOGIN")
-    } else if (nameText.textContent == "") {
-        document.getElementById("saveButton").classList.add("error");
-        create_uName.focus();
-        //console.log("Sem nome")
-    } else {
-        //console.log("OK")
-        document.getElementById("saveButton").classList.remove("error");
-        document.getElementById("saveButton").focus();
+        invoker.focus();
+        registerStatus.textContent = status || `Digite um nome '${login}'`;
+        return;
     }
+
+    document.getElementById("saveButton").classList.remove("error");
+    document.getElementById("saveButton").focus();
 }
 
 defSangria = () => {
@@ -952,13 +942,9 @@ document.addEventListener("keydown", (function (event) {
             break;
         case "F9":
             event.preventDefault();
-            hiddenAll();
-            registerHub.classList.remove("hidden");
-            simpleLock = true;
-            login ? registerStatus.textContent = `editando '${login}'` : registerStatus.textContent = "Criando novo";
-            simpleCheck();
-            registerStatus.textContent == `editando '${login}'` ? create_uName.focus() : null;
-            registerStatus.textContent == `editando '${login}'` ? document.getElementById("registerTitle").textContent = "Edição" : null;
+            if (!login) return;
+            simpleCheck(create_uName, `editando '${login}'`, nameText.textContent);
+            create_uName.focus();
             break;
         case "F12":
             event.preventDefault();
