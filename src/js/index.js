@@ -373,6 +373,7 @@ function clearAll() {
     location.reload();
 }
 
+/*
 function dPaper() {
     const title = document.createElement("h3");
     const val = document.createElement("li");
@@ -389,7 +390,7 @@ function dPaper() {
     window.print();
     location.reload();
 }
-
+*/
 function hiddenAll() {
     bodyTable.classList.add("hidden");
     sangriaElement.classList.add("hidden");
@@ -597,7 +598,6 @@ function loadState() {
     master = JSON.parse(localStorage.getItem("master"));
 
     if (master) {
-        //document.getElementById("pickJson").style = "display: flex;";
         document.getElementById("subTotal").classList.remove("hidden");
         document.getElementById("sanNotinhasUL").parentElement.classList.remove("hidden");
         sangriaElement.classList.remove("hidden");
@@ -630,6 +630,40 @@ function loadState() {
             rebFechamentoJSON(event);
         })
 
+        const button2 = document.createElement("button");
+        button2.textContent = "⇵";
+        button2.classList.add("tempB");
+
+        button2.addEventListener("click", () => {
+            document.getElementById("dynamicInputsValues").classList.add("hidden");
+            button2.textContent == "⇵" ? sf() : location.reload();
+            button2.textContent = "⟳";
+        })
+
+        function sf() {
+            const arr = [];
+            const main = document.getElementById("mainDynamicInputs");
+            const ul = document.createElement("ul");
+            ul.style = " margin: 0px; padding: 0px;";
+
+            document.querySelectorAll(".dynamicInputs").forEach((input) => {
+                if (!input.id && input.value != "" && !input.classList.contains("becomePix") && !input.classList.contains("becomeDev")) {
+                    arr.push(input.value);
+                }
+            });
+            arr.sort(function (a, b) { return a - b })
+
+            arr.forEach((temp) => {
+                const input = document.createElement("input");
+                input.value = temp;
+                input.classList.add("tempInput");
+                input.value.length >= 8 ? input.style.width = `${input.value.length}ch` : null;
+                ul.appendChild(input);
+            })
+            main.appendChild(ul);
+        }
+
+        document.getElementById("dynamicInputsTitle").append(" ", button2);
         sangriaElement.append(input, label, button);
     }
 }
@@ -954,11 +988,6 @@ document.addEventListener("keydown", (function (event) {
             if (simpleLock) return;
             event.preventDefault();
             jumpBack();
-            break;
-        case "F1":
-            event.preventDefault();
-            simpleLock = true;
-            dPaper();
             break;
     };
 }))

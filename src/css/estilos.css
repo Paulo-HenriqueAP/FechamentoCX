@@ -610,6 +610,16 @@ input[type=number]::-webkit-outer-spin-button {
     max-width: 95%;
 }
 
+.tempB {
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: gainsboro;
+}
+
 .sVias {
     border: 1px solid;
     margin-bottom: 15px;
