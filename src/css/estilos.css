@@ -486,7 +486,6 @@ h4 {
     font-size: xx-large;
     display: block;
     margin-top: 3px;
-    margin-bottom: 25px;
 }
 
 input[type=number]::-webkit-inner-spin-button,

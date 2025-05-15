@@ -46,6 +46,7 @@ const holidays = {
     "03/04": { holName: "Sexta-feira Santa", holImg: "src/icons/sexta.png" }/*VARIA*/,
     "21/04": { holName: "Dia de Tiradentes", holImg: "src/icons/tiradentes.png" },
     "01/05": { holName: "Dia do Trabalhador", holImg: "src/icons/trabalhador.png" },
+    "19/06": { holName: "Corpus Christi", holImg: "src/icons/corpus.png" } /*VARIA*/,
     "15/08": { holName: "Dia de Nossa Senhora da Boa Viagem", holImg: "src/icons/viagem.png" },
     "07/09": { holName: "Independência do Brasil", holImg: "src/icons/independencia.png" },
     "12/10": { holName: "Dia de Nossa Senhora Aparecida", holImg: "src/icons/aparecida.png" },
