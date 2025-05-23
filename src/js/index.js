@@ -60,11 +60,16 @@ const holidays = {
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("loginValue").focus();
     loadState();
-    //console.log(Object.keys(localStorage))
+    //console.log(Object.keys(localStorage)
     day = `${new Date().toLocaleDateString().slice(0, 5)}`
     Object.keys(holidays).forEach(hol => {
         day === hol && setHol();
     });
+
+    if (new Date().toLocaleDateString().slice(0, 2) == 29) {
+        document.getElementById("day20PP").classList.remove("hidden");
+        document.getElementById("day20").setAttribute("src", "src/icons/QR_Code.png")
+    }
     document.getElementById("cx").textContent = `[${cashier}]`;
     document.getElementById("cxName").textContent = `caixa [${cashier}]`
 })
@@ -230,6 +235,7 @@ function updateInput() {
             if (input.value === "") input.classList.remove(className.replace(".", ""));
         })
     }
+
     findEmpty(".becomeDev");
     findEmpty(".becomePix");
 
