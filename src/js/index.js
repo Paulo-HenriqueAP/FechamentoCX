@@ -66,10 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
         day === hol && setHol();
     });
 
-    if (new Date().toLocaleDateString().slice(0, 2) == 29) {
-        document.getElementById("day20PP").classList.remove("hidden");
-        document.getElementById("day20").setAttribute("src", "src/icons/QR_Code.png")
-    }
+    if (new Date().toLocaleDateString().slice(0, 2) == 15) day15();
+
     document.getElementById("cx").textContent = `[${cashier}]`;
     document.getElementById("cxName").textContent = `caixa [${cashier}]`
 })
@@ -78,6 +76,11 @@ function setHol() {
     document.getElementById("hiddenHol").classList.remove("hidden");
     document.getElementById("holName").textContent = holidays[day].holName;
     document.getElementById("tagImg").setAttribute("src", holidays[day].holImg);
+}
+
+let day15 = () => {
+    document.getElementById("day20PP").classList.remove("hidden");
+    document.getElementById("day20").setAttribute("src", "src/icons/qr_code.jpg")
 }
 
 /*const folks = [
