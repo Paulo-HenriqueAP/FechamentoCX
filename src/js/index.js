@@ -613,7 +613,7 @@ function loadState() {
         sangriaElement.classList.remove("hidden");
         sangriaElement.style = "transform:none; left:60%;";
         document.getElementById("filtersMain").classList.add("hidden");
-        document.getElementById("tutoDiv").classList.add("hidden");
+        //document.getElementById("tutoDiv").classList.add("hidden");
         findAndClear();
         changePosition();
 
