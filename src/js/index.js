@@ -79,8 +79,8 @@ function setHol() {
 }
 
 let day15 = () => {
-    document.getElementById("day20PP").classList.remove("hidden");
-    document.getElementById("day20").setAttribute("src", "src/icons/qr_code.jpg")
+    document.getElementById("vaiq").classList.remove("hidden");
+    document.getElementById("day15").setAttribute("src", "src/icons/qr_code.jpg")
 }
 
 /*const folks = [
