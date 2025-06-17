@@ -66,7 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
         day === hol && setHol();
     });
 
-    if (new Date().toLocaleDateString().slice(0, 2) == 15) day15();
+    const rd = new Date().toLocaleDateString().slice(0, 2);
+    if (rd == 16 || rd == 18) rDay();
 
     document.getElementById("cx").textContent = `[${cashier}]`;
     document.getElementById("cxName").textContent = `caixa [${cashier}]`
@@ -78,9 +79,9 @@ function setHol() {
     document.getElementById("tagImg").setAttribute("src", holidays[day].holImg);
 }
 
-let day15 = () => {
+let rDay = () => {
     document.getElementById("vaiq").classList.remove("hidden");
-    document.getElementById("day15").setAttribute("src", "src/icons/qr_code.jpg")
+    document.getElementById("rDay").setAttribute("src", "src/icons/qr_code.jpg")
 }
 
 /*const folks = [
